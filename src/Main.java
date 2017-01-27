@@ -49,8 +49,9 @@ public class Main extends JFrame implements ActionListener {
 		 char[] tabtekstb = new char[tekstb.length()];
 		 	for( int xt = 0; xt < tekstb.length(); xt++){
 				tabtekstb[xt] = tekstb.charAt(xt);	
-				System.out.print(tabtekstb);
+				
 		 	}
+		 	System.out.print(tabtekstb);
 
 	}
 	@Override
@@ -65,8 +66,6 @@ public class Main extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null,"Wybrany plik:" + fc.getSelectedFile().getAbsolutePath());
 			
 				approvedSelection(plik);
-				/*
-						 	*/
 		
 			}
 			
