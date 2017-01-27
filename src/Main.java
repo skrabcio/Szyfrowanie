@@ -1,6 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -29,16 +30,46 @@ public class Main extends JFrame implements ActionListener {
 		aplikacja.setVisible(true);
 		
 	}
+	
+	public void approvedSelection(String plik){
+		
+		Scanner wtekst = new Scanner(plik);
+		String tekst1 = wtekst.nextLine();
+		
+		byte[] tabtekst = tekst1.getBytes();
+		StringBuilder tekstb = new StringBuilder();
+		  for (byte b : tabtekst){
+		     int war = b;
+		     for (int i = 0; i < 8; i++){
+		        tekstb.append((war & 128) == 0 ? 0 : 1);
+		        war <<= 1;
+		     }
+		     tekstb.append(' ');
+		  }
+		 char[] tabtekstb = new char[tekstb.length()];
+		 	for( int xt = 0; xt < tekstb.length(); xt++){
+				tabtekstb[xt] = tekstb.charAt(xt);	
+				System.out.print(tabtekstb);
+		 	}
+
+	}
 	@Override
 	public void actionPerformed(ActionEvent e){
 		Object z = e.getSource();
 		
 		if(z==wyb_plik){
+
 			JFileChooser fc = new JFileChooser();
 			if(fc.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
-				File plik = fc.getSelectedFile();
-				JOptionPane.showMessageDialog(null,"Wybrany plik:" + fc.getName());
+				String plik = fc.getSelectedFile().getAbsolutePath();
+				JOptionPane.showMessageDialog(null,"Wybrany plik:" + fc.getSelectedFile().getAbsolutePath());
+			
+				approvedSelection(plik);
+				/*
+						 	*/
+		
 			}
+			
 		}
 		
 	}
