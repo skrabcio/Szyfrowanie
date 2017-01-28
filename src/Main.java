@@ -12,13 +12,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Main extends JFrame implements ActionListener {
-	private String tekst1;
+	private String tekst1, klucz;
 	private JButton wyb_plik, gen_pass, butt_szyfr;
 	private JLabel lp;
 	private JTextField tp;
 	private char[] tab_tekst_bity;
-	
-
+	private char[] tab_klucz_bity;
+	private byte[] tab_tekst_zak;
+	private int il_znak;
 	
 	public Main() {
 		
@@ -58,11 +59,34 @@ public class Main extends JFrame implements ActionListener {
 		aplikacja.setVisible(true);
 		
 	}
+	public void klucz_szyfr(String klucz){
+		
+		Scanner wszyfr = new Scanner(klucz);
+		String klucz_text = wszyfr.nextLine();
+		
+		
+	byte[] tab_klucz = klucz_text.getBytes();
+	 StringBuilder klucz_bity = new StringBuilder();
+		 for (byte b : tab_klucz){
+		    int war = b;
+		    for (int i = 0; i < 8; i++){
+		       klucz_bity.append((war & 128) == 0 ? 0 : 1);
+		       war <<= 1;
+		    }
+		    klucz_bity.append(' ');
+		 }
+	char[] tab_klucz_bity = new char[il_znak];
+	for(int i = 0; i < klucz_bity.length(); i++){
+		tab_klucz_bity[i] = klucz_bity.charAt(i);	
+	}
+	System.out.println(tab_klucz_bity);
+	szyfrowanie();
+	}
 	
 	public void szyfrowanie(){
-		byte[] tab_tekst_zak = new byte[tekst1.length()];
-		for(int k=0; k<licznik; k++){
-			if(tab_tekst_bity[k]== tabszyfrb[k]){
+		byte[] tab_tekst_zak = new byte[il_znak];
+		for(int k=0; k<il_znak; k++){
+			if(tab_tekst_bity[k]== tab_klucz_bity[k]){
 				if(tab_tekst_bity[k]==' '){
 					tab_tekst_zak[k]=' ';
 				}
@@ -73,6 +97,7 @@ public class Main extends JFrame implements ActionListener {
 				tab_tekst_zak[k]='1';
 			}
 		}
+		System.out.println(tab_tekst_zak);
 }
 	
 	public void approvedSelection(File tekst) throws FileNotFoundException{
@@ -95,9 +120,10 @@ public class Main extends JFrame implements ActionListener {
 		  }
 		  char[] tab_tekst_bity = new char[tekst_bity.length()];
 		 	for( int xt = 0; xt < tekst_bity.length()-1; xt++){
-				tab_tekst_bity[xt] = tekst_bity.charAt(xt);		
+				tab_tekst_bity[xt] = tekst_bity.charAt(xt);	
+				il_znak++;
 		 	}
-		 	System.out.print(tab_tekst_bity);
+		 	System.out.println(tab_tekst_bity);
 
 	}
 	@Override
@@ -122,7 +148,8 @@ public class Main extends JFrame implements ActionListener {
 			
 		}
 		else if(z == tp || z == butt_szyfr){
-			
+		klucz= tp.getText();
+		klucz_szyfr(klucz);
 		}
 		
 	}
