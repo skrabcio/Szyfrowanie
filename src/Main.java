@@ -64,6 +64,11 @@ public class Main extends JFrame implements ActionListener {
 		Scanner wszyfr = new Scanner(klucz);
 		String klucz_text = wszyfr.nextLine();
 		
+	if(tab_tekst_bity.length>klucz_text.length()){
+			for(int i=klucz_text.length(); i<=tab_tekst_bity.length; i+=klucz_text.length()){
+				klucz_text += klucz_text;
+			}
+	}
 		
 	byte[] tab_klucz = klucz_text.getBytes();
 	 StringBuilder klucz_bity = new StringBuilder();
@@ -75,7 +80,7 @@ public class Main extends JFrame implements ActionListener {
 		    }
 		    klucz_bity.append(' ');
 		 }
-	char[] tab_klucz_bity = new char[il_znak];
+	tab_klucz_bity = new char[klucz_bity.length()];
 	for(int i = 0; i < klucz_bity.length(); i++){
 		tab_klucz_bity[i] = klucz_bity.charAt(i);	
 	}
@@ -83,23 +88,7 @@ public class Main extends JFrame implements ActionListener {
 	szyfrowanie();
 	}
 	
-	public void szyfrowanie(){
-		byte[] tab_tekst_zak = new byte[il_znak];
-		for(int k=0; k<il_znak; k++){
-			if(tab_tekst_bity[k]== tab_klucz_bity[k]){
-				if(tab_tekst_bity[k]==' '){
-					tab_tekst_zak[k]=' ';
-				}
-				else{
-					tab_tekst_zak[k]='0';}
-			}
-			else{
-				tab_tekst_zak[k]='1';
-			}
-		}
-		System.out.println(tab_tekst_zak);
-}
-	
+		
 	public void approvedSelection(File tekst) throws FileNotFoundException{
 		
 		
@@ -118,7 +107,7 @@ public class Main extends JFrame implements ActionListener {
 		     }
 		     tekst_bity.append(' ');
 		  }
-		  char[] tab_tekst_bity = new char[tekst_bity.length()];
+		  tab_tekst_bity = new char[tekst_bity.length()];
 		 	for( int xt = 0; xt < tekst_bity.length()-1; xt++){
 				tab_tekst_bity[xt] = tekst_bity.charAt(xt);	
 				il_znak++;
@@ -126,6 +115,23 @@ public class Main extends JFrame implements ActionListener {
 		 	System.out.println(tab_tekst_bity);
 
 	}
+	public void szyfrowanie(){
+		tab_tekst_zak = new byte[tab_tekst_bity.length];
+		for(int k=0; k<tab_tekst_bity.length; k++){
+			if(tab_tekst_bity[k]== tab_klucz_bity[k]){
+				if(tab_tekst_bity[k]==' '){
+					tab_tekst_zak[k]=' ';
+				}
+				else{
+					tab_tekst_zak[k]='0';}
+			}
+			else{
+				tab_tekst_zak[k]='1';
+			}
+		}
+		System.out.println(tab_tekst_zak);
+}
+
 	@Override
 	public void actionPerformed(ActionEvent e){
 		Object z = e.getSource();
