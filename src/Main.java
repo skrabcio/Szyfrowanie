@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -9,17 +10,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+// deszyfracja
+// generator hasla
+// jezyk czytelny
 
 public class Main extends JFrame implements ActionListener {
 	private String tekst1, klucz;
 	private JButton wyb_plik, gen_pass, butt_szyfr;
-	private JLabel lp;
+	private JLabel lp,ls;
 	private JTextField tp;
+	private JTextArea text_szyfrogram;
 	private char[] tab_tekst_bity;
 	private char[] tab_klucz_bity;
 	private char[] tab_tekst_zak;
-	private int il_znak;
 	
 	public Main() {
 		
@@ -47,8 +52,20 @@ public class Main extends JFrame implements ActionListener {
 		add(gen_pass);
 		gen_pass.addActionListener(this);
 		
+		ls = new JLabel("Szyfrogram:");
+		ls.setBounds(25,100,120,25);
+		add (ls);
+		
+		text_szyfrogram = new JTextArea("");
+		text_szyfrogram.setBounds(25,125,250, 150);
+		text_szyfrogram.setLineWrap(true);
+		text_szyfrogram.setEditable(false);
+		text_szyfrogram.setVisible(true);
+		add(text_szyfrogram);
+		
+		
 		butt_szyfr= new JButton("Szyfruj");
-		butt_szyfr.setBounds(25,250,100,25);
+		butt_szyfr.setBounds(25,300,100,25);
 		add(butt_szyfr);
 		butt_szyfr.addActionListener(this);
 	}
@@ -64,7 +81,8 @@ public class Main extends JFrame implements ActionListener {
 		Scanner wszyfr = new Scanner(klucz);
 		String klucz_text = wszyfr.nextLine();
 		String klucz_uzup = klucz_text;
-	if(tekst1.length()>klucz_text.length()){
+	
+		if(tekst1.length()>klucz_text.length()){
 			for(int i=klucz_text.length()-1; i<=tekst1.length(); i+=klucz_uzup.length()){
 				klucz_text += klucz_uzup;
 			}
@@ -87,8 +105,11 @@ public class Main extends JFrame implements ActionListener {
 	System.out.println(tab_klucz_bity);
 	szyfrowanie();
 	}
-	
+	// *****************************************************************************
+	public void gen_klucz(){
 		
+	}
+	//******************************************************************************
 	public void approvedSelection(File tekst) throws FileNotFoundException{
 		
 		
@@ -110,7 +131,6 @@ public class Main extends JFrame implements ActionListener {
 		  tab_tekst_bity = new char[tekst_bity.length()];
 		 	for( int xt = 0; xt < tekst_bity.length()-1; xt++){
 				tab_tekst_bity[xt] = tekst_bity.charAt(xt);	
-				il_znak++;
 		 	}
 		 	System.out.println(tab_tekst_bity);
 
@@ -130,8 +150,31 @@ public class Main extends JFrame implements ActionListener {
 			}
 		}
 		System.out.println(tab_tekst_zak);
+		zapis();
 }
-
+	//*****************************************************************************
+	public void deszyfrowanie () {
+		
+		
+		
+	}
+	//*****************************************************************************
+	public void zapis() {
+		
+		PrintWriter zapis;
+		try {
+			text_szyfrogram.setText(String.valueOf(tab_tekst_zak));
+			zapis = new PrintWriter("C:\\Users\\skrab\\Desktop\\projekt\\szyfrogram.txt");
+			zapis.println(tab_tekst_zak);
+			zapis.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e){
 		Object z = e.getSource();
@@ -148,6 +191,7 @@ public class Main extends JFrame implements ActionListener {
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					 
 				}
 		
 			}
