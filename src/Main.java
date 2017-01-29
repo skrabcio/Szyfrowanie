@@ -18,7 +18,7 @@ public class Main extends JFrame implements ActionListener {
 	private JTextField tp;
 	private char[] tab_tekst_bity;
 	private char[] tab_klucz_bity;
-	private byte[] tab_tekst_zak;
+	private char[] tab_tekst_zak;
 	private int il_znak;
 	
 	public Main() {
@@ -63,10 +63,10 @@ public class Main extends JFrame implements ActionListener {
 		
 		Scanner wszyfr = new Scanner(klucz);
 		String klucz_text = wszyfr.nextLine();
-		
-	if(tab_tekst_bity.length>klucz_text.length()){
-			for(int i=klucz_text.length(); i<=tab_tekst_bity.length; i+=klucz_text.length()){
-				klucz_text += klucz_text;
+		String klucz_uzup = klucz_text;
+	if(tekst1.length()>klucz_text.length()){
+			for(int i=klucz_text.length()-1; i<=tekst1.length(); i+=klucz_uzup.length()){
+				klucz_text += klucz_uzup;
 			}
 	}
 		
@@ -116,8 +116,8 @@ public class Main extends JFrame implements ActionListener {
 
 	}
 	public void szyfrowanie(){
-		tab_tekst_zak = new byte[tab_tekst_bity.length];
-		for(int k=0; k<tab_tekst_bity.length; k++){
+		tab_tekst_zak = new char[tab_tekst_bity.length];
+		for(int k=0; k<tab_tekst_bity.length-1; k++){
 			if(tab_tekst_bity[k]== tab_klucz_bity[k]){
 				if(tab_tekst_bity[k]==' '){
 					tab_tekst_zak[k]=' ';
