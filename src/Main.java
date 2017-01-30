@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -108,7 +109,18 @@ public class Main extends JFrame implements ActionListener {
 	}
 	// *****************************************************************************
 	public void gen_klucz(){
-		
+		Random r = new Random(); 
+		int znak_klucz;
+		String klucz_gen="";
+		for(int y=0; y<16;y++){
+		znak_klucz = r.nextInt(90)+33;	
+		char character = (char)znak_klucz;
+        klucz_gen += character;
+        
+	}
+		JOptionPane.showMessageDialog(null,"Twoje has³o(pamiêtaj o skopiowaniu!): \n " + klucz_gen);
+		tp.setText(String.valueOf(klucz_gen));
+		  
 	}
 	//******************************************************************************
 	public void approvedSelection(File tekst) throws FileNotFoundException{
@@ -167,9 +179,10 @@ public class Main extends JFrame implements ActionListener {
         	int ascii = Integer.parseInt(st.nextToken(), 2);
             char character = (char)ascii;
             tekst_jawny += character;
-            zapis();
-        	
+           
         }
+        tekst_jawny+= "\n";
+        zapis();
 		
 	}
 	//*****************************************************************************
@@ -214,6 +227,9 @@ public class Main extends JFrame implements ActionListener {
 		else if(z == tp || z == butt_szyfr){
 		klucz= tp.getText();
 		klucz_szyfr(klucz);
+		}
+		else if(z == gen_pass){
+			gen_klucz();
 		}
 		
 	}
