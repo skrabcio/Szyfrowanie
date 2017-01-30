@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -17,7 +18,7 @@ import javax.swing.JTextField;
 // jezyk czytelny
 
 public class Main extends JFrame implements ActionListener {
-	private String tekst1, klucz;
+	private String tekst1, klucz, tekst_jawny="";
 	private JButton wyb_plik, gen_pass, butt_szyfr;
 	private JLabel lp,ls;
 	private JTextField tp;
@@ -150,12 +151,25 @@ public class Main extends JFrame implements ActionListener {
 			}
 		}
 		System.out.println(tab_tekst_zak);
-		zapis();
+		tekst();
 }
 	//*****************************************************************************
-	public void deszyfrowanie () {
+	public void tekst() {
+		char[] tab_zak = new char[tab_tekst_zak.length-1];
+		for(int x=0; x<tab_tekst_zak.length-1;x++){
+			tab_zak[x]=tab_tekst_zak[x];
+		}
+		String dekod = new String(tab_zak);
 		
-		
+		StringTokenizer st = new StringTokenizer(dekod," ");
+        while(st.hasMoreTokens()){
+        
+        	int ascii = Integer.parseInt(st.nextToken(), 2);
+            char character = (char)ascii;
+            tekst_jawny += character;
+            zapis();
+        	
+        }
 		
 	}
 	//*****************************************************************************
@@ -163,9 +177,9 @@ public class Main extends JFrame implements ActionListener {
 		
 		PrintWriter zapis;
 		try {
-			text_szyfrogram.setText(String.valueOf(tab_tekst_zak));
+			text_szyfrogram.setText(String.valueOf(tekst_jawny));
 			zapis = new PrintWriter("C:\\Users\\skrab\\Desktop\\projekt\\szyfrogram.txt");
-			zapis.println(tab_tekst_zak);
+			zapis.println(tekst_jawny);
 			zapis.close();
 			
 		} catch (FileNotFoundException e) {
